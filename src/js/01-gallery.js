@@ -11,48 +11,19 @@ const galleryRefs = document.querySelector('.gallery');
 function galleryMark(params) {
   const markGal = params
     .map(({ preview, original, description }) => {
-      return `<div class="gallery__item">
-  <a class="gallery__link" href="#">
-    <img
-      class="gallery__image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
-    />
-  </a>
-</div>`;
+      return `<a class="gallery__item" href="${original}">
+      <img class=gallery__image src="${preview}" alt="${description}" />
+            </a>`;
     })
     .join('');
   return markGal;
-  console.log(markGal);
 }
+
 console.log(galleryMark(galleryItems));
 galleryRefs.insertAdjacentHTML('beforeend', galleryMark(galleryItems));
 console.log(galleryRefs);
 
-galleryRefs.addEventListener('click', onBigPhoto);
-function onBigPhoto(evt) {
-  if (evt.target.nodeName !== 'IMG') {
-    return;
-  }
-
-  const instance = basicLightbox.create(
-    `
-    <img src="${evt.target.dataset.source}" width = '800' height = '600'>
-`,
-    {
-      onShow: () => {
-        window.addEventListener('keydown', onEscapeClose);
-      },
-      onClose: () => {
-        window.removeEventListener('keydown', onEscapeClose);
-      },
-    }
-  );
-  function onEscapeClose(evt) {
-    if (evt.key === 'Escape') {
-      instance.close();
-    }
-  }
-  instance.show();
-}
+let lightbox = new SimpleLightbox('.gallery__item', {
+  captionsData: 'alt',
+  captionDelay: '250ms',
+});
