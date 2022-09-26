@@ -43,5 +43,9 @@ const handleSubmit = event => {
   console.log({ email: email.value, message: message.value });
   event.currentTarget.reset();
   remove(LOCALE_STORAGE_KEY);
+
+  if (email.value === '' || message.value === '') {
+    alert('Всі поля мають бути заповнені');
+  }
 };
 formRef.addEventListener('submit', handleSubmit);
